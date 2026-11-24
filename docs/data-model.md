@@ -16,7 +16,7 @@ Description of data model for the deadline tracker.
 | id           | bigint      | PK, generated                        |       |
 | title        | text        | NOT NULL                             |       |
 | due_at       | timestamptz | NOT NULL                             |       |
-| category     | text        | NOT NULL, CHECK (category IN ('homework', 'exam', 'project', 'quiz', 'other'))|       |
+| category     | text        | NOT NULL, CHECK (category IN ('HOMEWORK', 'EXAM', 'PROJECT', 'QUIZ', 'OTHER')) |       |
 | description  | text        |                                      |optional|
 | completed_at | timestamptz |                                      | if done -> timestamptz, otherwise nullable |
 | created_at   | timestamptz | NOT NULL, default now()              |       |
@@ -30,6 +30,7 @@ Description of data model for the deadline tracker.
 - For completed_at, instead of basic boolean we use a timestamptz, which allows to record the time of completion, together with the option of it being NULL, which means that it's uncompleted.
 - When deleting the course, if there are any existing deadlines connected to it, you will be warned about their upcoming deletion. If confirmed, they will get erased.
 - For deadline type (category), we're using a fixed list of options including "other", where you can further explain in description.
+- Category values are stored in uppercase (`HOMEWORK`, …) so they match the Java enum constant names, which JPA stores with `EnumType.STRING`. Changed from lowercase in migration V2.
 
 ## Future ideas
 
